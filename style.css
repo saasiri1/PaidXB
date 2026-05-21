@@ -51,28 +51,59 @@ body {
 /* ── Language Field ── */
 .lang-field {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 20px;
 }
 .lang-field label {
-  font-weight: 600;
-  font-size: .92rem;
+  font-weight: 700;
+  font-size: .85rem;
   color: #1a237e;
-  white-space: nowrap;
+  letter-spacing: .3px;
+  text-transform: uppercase;
+}
+.lang-select-wrap {
+  position: relative;
+  max-width: 280px;
+}
+.lang-select-wrap::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #3949ab;
+  pointer-events: none;
 }
 .lang-field select {
-  max-width: 260px;
-  padding: 9px 14px;
-  border: 1.5px solid #ddd;
-  border-radius: 8px;
-  font-size: .93rem;
+  width: 100%;
+  padding: 11px 40px 11px 16px;
+  border: 2px solid #c5cae9;
+  border-radius: 10px;
+  font-size: .95rem;
   font-family: inherit;
-  outline: none;
-  background: #fff;
+  font-weight: 600;
+  color: #1a237e;
+  background: #f0f4ff;
   cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color .18s, box-shadow .18s, background .18s;
 }
-.lang-field select:focus { border-color: #3949ab; }
+.lang-field select:hover {
+  border-color: #3949ab;
+  background: #e8eaf6;
+}
+.lang-field select:focus {
+  border-color: #1a237e;
+  box-shadow: 0 0 0 3px rgba(57,73,171,.18);
+  background: #fff;
+}
 
 /* ── Drop Zone ── */
 .drop-zone {
