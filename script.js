@@ -1,19 +1,11 @@
-// ════════════════════════════════════════════════════════════
-//  State
-// ════════════════════════════════════════════════════════════
 let allQuestions = [];
 let filteredQ    = [];
 let currentPage  = 1;
 const PAGE_SIZE  = 25;
 
-// ════════════════════════════════════════════════════════════
-//  Init
-// ════════════════════════════════════════════════════════════
+
 window.onload = () => { setupDrop(); };
 
-// ════════════════════════════════════════════════════════════
-//  Drag & Drop
-// ════════════════════════════════════════════════════════════
 function setupDrop() {
   const dz = document.getElementById('dropZone');
   dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('over'); });
@@ -30,9 +22,7 @@ function handleFileInput(e) {
   if (e.target.files[0]) processFile(e.target.files[0]);
 }
 
-// ════════════════════════════════════════════════════════════
-//  File Processing
-// ════════════════════════════════════════════════════════════
+
 function processFile(file) {
   clearStatus();
   showProgress(true, 0, 'جاري فتح الملف…');
@@ -50,9 +40,7 @@ function processFile(file) {
   reader.readAsArrayBuffer(file);
 }
 
-// ════════════════════════════════════════════════════════════
-//  QTI ZIP Parser  (Blackboard → questions[])
-// ════════════════════════════════════════════════════════════
+
 async function parseQtiZip(data) {
   const zip = await JSZip.loadAsync(data);
 
@@ -64,7 +52,6 @@ async function parseQtiZip(data) {
     }
   });
 
-  // Fallback: old Blackboard Pool format (res*.dat containing <POOL>)
   if (xmlFiles.length === 0) {
     let datEntry = null;
     zip.forEach((path, file) => {
@@ -84,7 +71,7 @@ async function parseQtiZip(data) {
     throw new Error('لم يتم العثور على ملفات أسئلة داخل الـ ZIP. تأكد من أن الملف مُصدَّر من Blackboard.');
   }
 
-  // Sort by filename so order is preserved
+
   xmlFiles.sort((a, b) => a.path.localeCompare(b.path));
 
   const questions = [];
@@ -166,9 +153,7 @@ function parseQtiItem(xmlText) {
   return { text: questionText, type, options: options.slice(0, 4), correctAnswer };
 }
 
-// ════════════════════════════════════════════════════════════
-//  Pool DAT Parser  (old Blackboard Pool XML → questions[])
-// ════════════════════════════════════════════════════════════
+
 function parsePoolDat(datText) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(datText, 'application/xml');
@@ -233,7 +218,7 @@ function parsePoolDat(datText) {
   return questions;
 }
 
-// Strip leading "1. " / "1) " / "(1) " and trim whitespace
+
 function cleanQuestionText(raw) {
   return raw
     .replace(/^\s*\d+[\.\)]\s*/, '')
@@ -241,7 +226,7 @@ function cleanQuestionText(raw) {
     .trim();
 }
 
-// Strip leading "a) " / "a. " / "(a) " / "أ) " / "أ. " etc.
+
 function cleanOptionText(raw) {
   return raw
     .replace(/^\s*[\(\[]*[a-zA-Zأ-ي][\)\]\.]\s*/, '')
@@ -249,9 +234,7 @@ function cleanOptionText(raw) {
     .trim();
 }
 
-// ════════════════════════════════════════════════════════════
-//  After Loading
-// ════════════════════════════════════════════════════════════
+
 function onLoaded() {
   const n = allQuestions.length;
   showStatus(`تم تحميل ${n} سؤال بنجاح`, 'success');
@@ -270,9 +253,7 @@ function onLoaded() {
   applyFilters();
 }
 
-// ════════════════════════════════════════════════════════════
-//  Filter & Render
-// ════════════════════════════════════════════════════════════
+
 function applyFilters() {
   const term = (document.getElementById('searchInput').value || '').toLowerCase();
   const type = document.getElementById('typeFilter').value;
@@ -355,9 +336,7 @@ function goPage(p) {
   document.getElementById('previewCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// ════════════════════════════════════════════════════════════
-//  Download
-// ════════════════════════════════════════════════════════════
+
 function downloadExcel() {
   if (!allQuestions.length) return;
 
@@ -387,9 +366,7 @@ function downloadExcel() {
   XLSX.writeFile(wb, 'converted_questions.xlsx');
 }
 
-// ════════════════════════════════════════════════════════════
-//  UI Helpers
-// ════════════════════════════════════════════════════════════
+
 function showProgress(visible, pct = 0, label = '') {
   const wrap = document.getElementById('progressWrap');
   wrap.style.display = visible ? 'block' : 'none';
