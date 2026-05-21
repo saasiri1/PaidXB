@@ -48,6 +48,32 @@ body {
   font-weight: 700;
 }
 
+/* ── Language Field ── */
+.lang-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.lang-field label {
+  font-weight: 600;
+  font-size: .92rem;
+  color: #1a237e;
+  white-space: nowrap;
+}
+.lang-field select {
+  max-width: 260px;
+  padding: 9px 14px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: .93rem;
+  font-family: inherit;
+  outline: none;
+  background: #fff;
+  cursor: pointer;
+}
+.lang-field select:focus { border-color: #3949ab; }
+
 /* ── Drop Zone ── */
 .drop-zone {
   border: 2px dashed #3949ab;
